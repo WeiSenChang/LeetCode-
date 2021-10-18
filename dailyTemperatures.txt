@@ -1,0 +1,41 @@
+//每日温度
+vector<int> dailyTemperatures(vector<int>& temperatures) {
+	vector<int>res(temperatures.size(), 0);
+	//stackRes(temperatures,res);
+	funRes(temperatures, res);//效率更高，占用内存更少
+	return res;
+}
+//栈解法
+void stackRes(vector<int>& t, vector<int>& res) {
+	stack<int>s;
+	for (int i = 0; i < t.size(); i++) {
+		while (!s.empty()) {
+			if (t[i] > t[s.top()]) {
+				res[s.top()] = i - s.top();
+				s.pop();
+			}
+			else {
+				break;
+			}
+		}
+		s.push(i);
+	}
+}
+//循环解法
+void funRes(vector<int>& t, vector<int>& res) {
+	for (int i = t.size() - 1; i >= 0; i--) {
+		int j = i + 1;
+		while (j < t.size()) {
+			if (t[j] > t[i]) {
+				res[i] = j - i;
+				break;
+			}
+			else if (res[j] == 0) {
+				break;
+			}
+			else {
+				j += res[j];
+			}
+		}
+	}
+}

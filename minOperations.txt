@@ -1,0 +1,16 @@
+//使数组连续的最少操作数
+int minOperations(vector<int>& nums) {
+	int m = nums.size();//原数组大小
+	sort(nums.begin(), nums.end());//排序
+	nums.erase(unique(nums.begin(), nums.end()), nums.end());//去重
+	int n = nums.size();//排序去重后数组大小
+	int mymax = 0;//最大可保留数组元素个数
+	int j = 1;//右指针
+	for (int i = 0; i < n; i++)//左指针
+	{
+		while (j < n&& nums[j] - nums[i] <= m - 1)j++;//当右指针未到达数组尾部，且右指针所在元素-左指针所在元素<=原数组大小-1，右指针向右移动
+		mymax = mymax > j - i ? mymax : j - i;//更新最大可保留数组元素个数
+		if (j == n)break;//右指针遍历至数组尾部，退出循环
+	}
+	return m - mymax;//原数组大小-最大可保留数组元素个数=使数组连续的最少操作数
+}

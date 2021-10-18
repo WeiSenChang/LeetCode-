@@ -1,0 +1,13 @@
+vector<int> twoSum(vector<int>& nums, int target) {
+	vector<int>v(2, -1);
+        	map<int, int>m;//key保存nums值,val保存nums下标
+       	for (int i = 0; i < nums.size(); i++) {
+           		if (m.count(target - nums[i])) {//如果target - nums[i]已经存入map，即target=(target - nums[i])(已存入map)+nums[i](即将存入map);
+                		v[0] = m[target - nums[i]];//得到第一个下标为map[target - nums[i],val];
+                		v[1] = i;//得到第二个下标为当前i值
+                		return v;
+            		}
+            		m.insert(make_pair(nums[i], i));
+	}
+	return v;
+}

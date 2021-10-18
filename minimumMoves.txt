@@ -1,0 +1,16 @@
+//转换字符串的最少操作次数
+int minimumMoves(string s) {
+    int i = 0, res = 0;
+    while (s[i]) {
+        if (s[i] == 'X') {
+            res++;
+            int j = i;
+            while (s[j]) {
+                if (s[j] == 'X')s[j] = 'O';
+                if (++j - i == 3)break;
+            }
+        }
+        i++;
+    }
+    return res;
+}

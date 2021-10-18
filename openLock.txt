@@ -1,0 +1,48 @@
+//打开转盘锁
+int openLock(vector<string>& deadends, string target) {
+    unordered_set<string> deadset;//死亡数字
+    deadset.insert(deadends.begin(), deadends.end());
+    string startStr = "0000";//初始数字
+    if (deadset.count(startStr)) {//如果死亡数字为初始数字，返回-1
+        return -1;
+    }
+    queue<string> myqueue;//队列存放每一步的所有情况
+    unordered_set<string> visitset;//哈希表存放遍历过的字符串
+    myqueue.push(startStr);//将初始数字放入队列
+    visitset.insert(startStr);//将遍历过的字符串放入哈希表
+    int res = 0;//设置初始步数为0
+    //两层循环
+    while (!myqueue.empty()) {
+        int mysize = myqueue.size();
+        while (mysize-- > 0) {
+            string str = myqueue.front();
+            myqueue.pop();
+            //外层循环遍历当前队列的元素
+            //遍历到结果则返回步数
+            if (str == target)return res;
+            //内层循环将下一步的各种结果存放到队列中
+            for (int i = 0; i < 4; i++) {//控制每个字符+1-1
+                //str[i]+1
+                string strAdd = str;
+                strAdd[i] = strAdd[i] == '9' ? '0' : strAdd[i] + 1;
+                //str[i]-1
+                string strSub = str;
+                strSub[i] = strSub[i] == '0' ? '9' : strSub[i] - 1;
+                //将各种情况放入队列中(8叉树)        "0000"
+                          //"1000","9000","0100","0900","0010","0090","0001","0009"
+                        //......，......，......，......，......，......，......，......
+                //未遍历过stradd和strsub并且其不在死亡容器中时添加进已遍历过的容器中，
+                if (!visitset.count(strAdd) && !deadset.count(strAdd)) {
+                    myqueue.push(strAdd);
+                    visitset.insert(strAdd);
+                }
+                if (!visitset.count(strSub) && !deadset.count(strSub)) {
+                    myqueue.push(strSub);
+                    visitset.insert(strSub);
+                }
+            }
+        }
+        res++;//步数+1
+    }
+    return -1;//无法旋转到目标数字
+}

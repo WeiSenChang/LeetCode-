@@ -1,0 +1,10 @@
+int myAtoi(string s) {
+	int index = 0, iChar = 0, ans = 0;
+	while (s[index] == ' ')index++;
+	if (s[index] == '+' || s[index] == '-')iChar = s[index++];
+	while (s[index] >= '0' && s[index] <= '9') {
+		if (ans > INT_MAX / 10 || (ans == INT_MAX / 10 && s[index] - '0' > INT_MAX % 10))return iChar == '-' ? INT_MIN : INT_MAX;
+            		ans = ans * 10 + (s[index++] - '0');
+	}
+	return iChar == '-' ? -ans : ans;
+}

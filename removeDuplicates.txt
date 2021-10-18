@@ -1,0 +1,11 @@
+//删除排序数组的重复元素
+int removeDuplicates(vector<int>& nums) {
+	if (nums.empty())return 0;
+	int i = 0, j = 0;
+	while (++j < nums.size()) {
+		if (nums[i] != nums[j]) {
+			nums[++i] = nums[j];
+		}
+	}
+	return ++i;
+}
